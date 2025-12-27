@@ -1,0 +1,591 @@
+<html>
+
+<head>
+<style>
+:root{
+  --accent:#b26bff;
+  --accent2:#ff5fd2;
+  --text:#f4f1ff;
+  --muted:#9a90b8;
+}
+
+/* BACKGROUND */
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(1200px 600px at 20% 20%, #2b0b3f, transparent 60%),
+    radial-gradient(1000px 600px at 80% 20%, #001a3a, transparent 60%),
+    linear-gradient(120deg,#05030a,#0b0614,#05030a);
+  font-family:system-ui,sans-serif;
+  color:var(--text);
+}
+
+/* HEADER */
+header{
+  padding:18px;
+  text-align:center;
+  font-weight:900;
+  font-size:1.25rem;
+  color:var(--accent);
+  text-shadow:0 0 18px rgba(178,107,255,.8);
+}
+
+/* MAIN */
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:0 16px;
+}
+
+/* CARD */
+.card{
+  width:100%;
+  max-width:420px;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.02));
+  backdrop-filter:blur(22px);
+  border-radius:28px;
+  padding:22px;
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.75),
+    inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+.card h1{
+  text-align:center;
+  margin-bottom:16px;
+}
+
+/* INPUT */
+.input-wrap{
+  background:rgba(0,0,0,.45);
+  padding:14px;
+  border-radius:18px;
+  margin-bottom:14px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+input{
+  width:100%;
+  border:none;
+  background:none;
+  color:var(--text);
+  font-size:1rem;
+  outline:none;
+}
+
+/* SELECTS – CLEAR & THEME MATCHED */
+.row{
+  display:flex;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+select{
+  flex:1;
+  appearance:none;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.20),rgba(255,255,255,.06));
+  border:none;
+  border-radius:16px;
+  padding:14px 44px 14px 16px;
+  font-weight:800;
+  font-size:.9rem;
+  color:var(--text);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.28),
+    0 0 16px rgba(178,107,255,.25);
+  background-image:
+    linear-gradient(45deg,transparent 50%,var(--accent) 50%),
+    linear-gradient(135deg,var(--accent) 50%,transparent 50%);
+  background-position:
+    calc(100% - 22px) 55%,
+    calc(100% - 16px) 55%;
+  background-size:6px 6px;
+  background-repeat:no-repeat;
+}
+
+select option{
+  background:#12081f;
+  color:var(--text);
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:22px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  cursor:pointer;
+  box-shadow:0 12px 45px rgba(178,107,255,.55);
+}
+
+/* =========================
+   HORIZONTAL PROGRESS ONLY
+   ========================= */
+
+.flow{
+  width:100%;
+  max-width:620px;
+  margin-top:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.stage{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+/* OUTER NEON PULSE (ACTIVE ONLY) */
+.stage.active::before{
+  content:"";
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,
+      rgba(178,107,255,.55),
+      rgba(255,95,210,.25),
+      transparent 70%);
+  animation:pulse 1.8s infinite;
+  z-index:-1;
+}
+
+@keyframes pulse{
+  0%{transform:scale(.65);opacity:.9}
+  100%{transform:scale(1.5);opacity:0}
+}
+
+.stage-label{
+  font-size:.7rem;
+  color:var(--muted);
+}
+
+/* CONNECTOR LINE */
+.line{
+  width:60px;
+  height:3px;
+  background:
+    linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);
+  margin:0 8px;
+  opacity:.65;
+}
+
+/* BUBBLES */
+.bowl{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  
+  backdrop-filter:blur(18px);
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 0 28px rgba(178,107,255,.55),
+    inset 0 0 0 2px rgba(255,255,255,.25);
+}
+
+.water{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:0%;
+  background:linear-gradient(180deg,#f9c2ff,var(--accent));
+  transition:height 2s ease;
+}
+
+.bowl.fill .water{height:100%}
+.bowl.fake75 .water{height:75%}
+
+.bowl.done::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+ 
+  color:var(--accent);
+}
+
+/* READY BUTTON */
+.download-btn{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background: linear-gradient(135deg, #e71212, #ff5f5f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.3rem;
+  opacity:.35;
+  cursor:pointer;
+}
+
+.download-btn.ready{opacity:1}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:14px;
+  font-size:.75rem;
+  color:var(--muted);
+}
+</style>
+<style>
+.title{
+  font-size:1.5rem;
+  font-weight:700;
+  color:#f4f1ff;
+  display:flex;
+  gap:10px;
+ 
+
+}
+
+.dynamic-word{
+  position:relative;
+  width:2000px;
+  height:2.4rem;
+}
+
+.dynamic-word span{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  opacity:0;
+  transform:scale(.85);
+  
+  text-shadow:0 0 22px rgba(255,95,210,.8);
+  animation:fadeSwap 8s infinite;
+}
+
+.dynamic-word span:nth-child(1){animation-delay:0s}
+.dynamic-word span:nth-child(2){animation-delay:2s}
+.dynamic-word span:nth-child(3){animation-delay:4s}
+.dynamic-word span:nth-child(4){animation-delay:6s}
+
+@keyframes fadeSwap{
+  0%   {opacity:0;transform:scale(.85)}
+  10%  {opacity:1;transform:scale(1)}
+  25%  {opacity:1;transform:scale(1)}
+  35%  {opacity:0;transform:scale(1.15)}
+  100% {opacity:0}
+}
+</style>
+
+
+
+
+<br />
+<br />
+</head>
+<body>
+<div class="title">
+ 
+  <span class="dynamic-word">
+    <span>YOUTUBE</span>
+    <span>🐹 X-HAMSTER</span>
+    <span>INSTAGRAM</span>
+    <span>FACEBOOK</span>
+  </span>
+</div>
+
+<br />
+ 
+<br />
+<br />
+<main>
+  <div class="card">
+    
+
+    <div class="input-wrap">
+      <input id="videoInput" placeholder=" 🔗 Paste video link" />
+    </div>
+
+    <div class="row">
+      <select id="mode">
+        <option value="video" />Video
+        <option value="audio" />MP3
+      </select>
+      <select id="quality">
+        <option value="360" />360p
+        <option value="720" />720p
+        <option value="1080" />1080p
+      </select>
+    </div>
+
+    <button id="btn">Start</button>
+  </div>
+
+  <!-- HORIZONTAL PROGRESS -->
+  <div class="flow">
+    <div class="stage active" id="stagePrep">
+      <div class="bowl" id="prep"><div class="water"></div></div>
+      <div class="stage-label">Preparing</div>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="stage" id="stageProc">
+      <div class="bowl" id="proc"><div class="water"></div></div>
+      <div class="stage-label">Processing</div>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="stage" id="stageDown">
+      <div class="bowl" id="down"><div class="water"></div></div>
+      <div class="stage-label">Downloading</div>
+    </div>
+
+    <div class="line"></div>
+
+
+    
+  </div>
+<br />
+<br />
+ <div class="stage" id="stageReady">
+      <div class="download-btn" id="downloadBtn">🡻</div>
+      <div class="stage-label">Ready</div>
+    </div>
+</main>
+
+<footer>© 2026 Octo Download</footer>
+
+<script>
+async function getToken(){ return 'dev-token'; }
+
+const input=document.getElementById('videoInput');
+const btn=document.getElementById('btn');
+const mode=document.getElementById('mode');
+const quality=document.getElementById('quality');
+
+const prep=document.getElementById('prep');
+const proc=document.getElementById('proc');
+const down=document.getElementById('down');
+const downloadBtn=document.getElementById('downloadBtn');
+
+const stagePrep=document.getElementById('stagePrep');
+const stageProc=document.getElementById('stageProc');
+const stageDown=document.getElementById('stageDown');
+const stageReady=document.getElementById('stageReady');
+
+let taskId=null,downloadURL=null;
+
+/* START */
+btn.onclick=async()=>{
+  const url=input.value.trim();
+  if(!/^https?:\/\//.test(url)) return;
+
+  btn.disabled=true;
+
+  stagePrep.classList.add('active');
+  prep.classList.add('fill');
+
+  await getToken();
+  startConversion(url);
+};
+
+function startConversion(url){
+  const format=mode.value==='audio'?'mp3':quality.value;
+
+  fetch(`https://vkrcors.vercel.app/proxy?proxyurl=${encodeURIComponent(
+    `https://p.savenow.to/ajax/download.php?copyright=0&format=${format}&url=${encodeURIComponent(url)}`
+  )}`)
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.success&&d.id){
+      taskId=d.id;
+      setTimeout(()=>{
+        prep.classList.add('done');
+        stagePrep.classList.remove('active');
+
+        stageProc.classList.add('active');
+        proc.classList.add('fill');
+      },2000);
+
+      pollProgress();
+    }
+  });
+}
+
+function pollProgress(){
+  fetch(`https://vkrcors.vercel.app/proxy?proxyurl=${encodeURIComponent(
+    `https://p.savenow.to/api/progress?id=${taskId}`
+  )}`)
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.progress<1000){
+      setTimeout(pollProgress,1800);
+    }else{
+      proc.classList.add('done');
+      stageProc.classList.remove('active');
+
+      stageDown.classList.add('active');
+      down.classList.add('fake75');
+
+      fetchDownload();
+    }
+  });
+}
+
+function fetchDownload(){
+  fetch(`https://vkrcors.vercel.app/proxy?proxyurl=${encodeURIComponent(
+    `https://p.savenow.to/api/progress?id=${taskId}`
+  )}`)
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.download_url){
+      down.classList.remove('fake75');
+      down.classList.add('fill');
+
+      setTimeout(()=>{
+        down.classList.add('done');
+        stageDown.classList.remove('active');
+
+        stageReady.classList.add('active');
+        downloadURL=d.download_url;
+        downloadBtn.classList.add('ready');
+        btn.disabled=false;
+      },2000);
+    }else{
+      setTimeout(fetchDownload,1500);
+    }
+  });
+}
+
+downloadBtn.onclick = () => {
+  if(downloadURL){
+    window.open(downloadURL, "_self");
+
+    // Reset after a short delay so the click feels intentional
+    setTimeout(resetUI, 1200);
+  }
+};
+
+</script>
+<script>
+function resetUI(){
+  // Reset input + button
+  input.value = "";
+  btn.disabled = false;
+
+  // Reset bowls
+  [prep, proc, down].forEach(b=>{
+    b.classList.remove("fill","fake75","done");
+    b.querySelector(".water").style.height = "";
+  });
+
+  // Reset stages
+  [stagePrep, stageProc, stageDown, stageReady].forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  // Reset ready button
+  downloadBtn.classList.remove("ready");
+
+  // Reset state
+  taskId = null;
+  downloadURL = null;
+}
+</script>
+
+<script>
+(function autoFillAndStart(){
+  const params = new URLSearchParams(window.location.search);
+  const sharedURL = params.get("url");
+
+  if(sharedURL && /^https?:\/\//.test(sharedURL)){
+    // Put URL into input
+    input.value = decodeURIComponent(sharedURL);
+
+    // Small delay so DOM + styles settle
+    setTimeout(() => {
+      btn.click();
+    }, 600);
+  }
+})();
+</script>
+  
+</body>
+   <script>
+    // Disable right-click
+    document.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
+
+    // Disable keyboard shortcuts for DevTools
+    document.addEventListener("keydown", function (e) {
+      if (e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S" || e.key === "i" || e.key === "I" || e.key === "j" || e.key === "J" || e.key === "c" || e.key === "C")) {
+        e.preventDefault();
+      }
+    });
+
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123) { return false; }
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) { return false; }
+    };
+  </script>
+
+  <script>
+    const blockScreen = document.getElementById('blockScreen');
+
+    function detectDevTools() {
+      const widthDiff = window.outerWidth - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+      const threshold = 120;
+
+      let devtoolsOpen = widthDiff > threshold || heightDiff > threshold;
+
+      const trap = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (trap) {
+        const start = new Date();
+        debugger;
+        const end = new Date();
+        if (end - start > 100) devtoolsOpen = true;
+      }
+
+      if (devtoolsOpen) {
+        window.location.href = "https://c.tenor.com/x4V9PRp9R-0AAAAC/tenor.gif";
+      } else {
+        if (blockScreen) blockScreen.style.display = 'none';
+        document.body.style.pointerEvents = 'auto';
+      }
+    }
+
+    setInterval(detectDevTools, 600);
+
+    // Block right-click
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Block common dev hotkeys
+    document.addEventListener('keydown', function (event) {
+      if (
+        event.key === 'F12' ||
+        (event.ctrlKey && event.shiftKey && ['I', 'J', 'C'].includes(event.key.toUpperCase())) ||
+        (event.ctrlKey && event.key.toLowerCase() === 'u')
+      ) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</html>
